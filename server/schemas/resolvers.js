@@ -4,27 +4,29 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    users: async () => {
-      return User.find({});
-    },
-    user: async (parent, { user }) => {
-      return User.findOne({ _id: context.user._id }).populate('books');
-    },
-    books: async (parent, { user }) => {
-      const params = user ? context.user.id : {};
-      return Book.find(params).sort({ createdAt: -1 });
-    },
-    book: async (parent, { book }) => {
-      return Book.findOne({ _id: context.book._id });
-    },
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('books');
+        return User.findOne({ username: context.username }).populate('savedBooks');
       }
       throw new AuthenticationError('You need to be logged in!');
     },
   },
-
+  // Mutation: {
+  //   addUser(username: String!, email: String!, password: String!): Auth
+  // }
+  // users: async () => {
+  //   return User.find({});
+  // },
+  // user: async (parent, { user }) => {
+  //   return User.findOne({ _id: context.user._id }).populate('books');
+  // },
+  // books: async (parent, { user }) => {
+  //   const params = user ? context.user.id : {};
+  //   return Book.find(params).sort({ createdAt: -1 });
+  // },
+  // book: async (parent, { book }) => {
+  //   return Book.findOne({ _id: context.book._id });
+  // },
   // Mutation: {
   //   addUser: async (parent, { username, email, password }) => {
   //     const user = await User.create({ username, email, password });
