@@ -5,6 +5,9 @@ const db = require('./config/connection');
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
 
+// const { User } = require('./models');
+// User.create({username: 'Bob', email: 'bob@bob.com', password: 'bob01'})
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
